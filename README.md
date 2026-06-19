@@ -1,1 +1,1 @@
-# variational-quantum-classifier
+# Variational Quantum Classifier
