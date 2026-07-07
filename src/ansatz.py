@@ -6,11 +6,12 @@ sim = AerSimulator()
 
 def build_ansatz(n_qubits=4, n_layers=1):
     '''
-    Requires: 
+    Parameters: 
         n_qubits: int
             number of qubits (default 4 Iris dataset features)
         n_layers: int
             number of layers (default 1)
+
     Returns: 
         qc: QuantumCircuit
             unmeasured quantum circuit
@@ -29,9 +30,10 @@ def build_ansatz(n_qubits=4, n_layers=1):
             idx+=1
         
         # Entanglement layer
-        # add CNOT gates to create correlation between qubits
-        for qubit in range(n_qubits - 1):
-            qc.cx(qubit, qubit+1)
+        # CNOT staircase ending at qubit 0, the measured qubit
+        # creates correlation between all qubits
+        for qubit in reversed(range(1, n_qubits)):
+            qc.cx(qubit, qubit-1)
     
         qc.barrier()
 
@@ -39,7 +41,7 @@ def build_ansatz(n_qubits=4, n_layers=1):
 
 def build_vqc(x, n_layers=1):
     '''
-    Requires:
+    Parameters:
         x: array-like w/ length 4 (in the case of the Iris dataset)
             length = number of qubits
         n_layers: int
@@ -66,7 +68,7 @@ def get_prob(qc, theta, theta_vals, shots=1000):
     '''
     Effect:
         Finds the probability of a parameterized VQC returning |1>
-    Requires:
+    Parameters:
         qc: QuantumCircuit
             measured quantum circuit built by build_vqc
         theta: ParameterVector
