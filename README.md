@@ -54,6 +54,15 @@ pip install -r requirements.txt
 Notebooks are meant to be run from the `notebooks/` directory (they add `../src` to the
 path). Requires Qiskit + Qiskit Aer for circuit simulation.
 
+### Running the demo locally
+
+```bash
+python3 -m http.server 4173 --directory docs
+```
+
+Then open `http://localhost:4173`. (Opening `docs/index.html` directly as a `file://` URL
+won't work — the page fetches `model.json`, which browsers block under `file://`.)
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
