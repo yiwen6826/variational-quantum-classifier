@@ -4,7 +4,7 @@ A 4-qubit Variational Quantum Classifier (VQC), built with Qiskit and trained wi
 COBYLA optimizer, that classifies flowers in the Iris dataset from their four
 measurements (sepal length/width, petal length/width).
 
-**[Try a live demo](https://yiwen6826.github.io/variational-quantum-classifier/)** —
+<a href="https://yiwen6826.github.io/variational-quantum-classifier/" target="_blank">Try a live demo</a> —
 move sliders for the four measurements and watch the model predict the species in your
 browser.
 
