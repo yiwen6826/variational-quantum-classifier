@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Variational Quantum Classifier — Iris Demo</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <p class="eyebrow">Quantum Machine Learning</p>
+      <h1>A Variational Quantum Classifier, visualized</h1>
+      <p class="lede">
+        This is a simple 4-qubit VQC, trained with COBYLA on the classic Iris flower dataset.
+        Each qubit corresponds to a measurement: sepal length/width, petal length/width. Move the
+        sliders below to feed it a new flower and watch it predict the species.
+      </p>
+    </header>
+
+    <section class="panel demo">
+      <div class="controls">
+        <h2>Flower measurements</h2>
+        <div id="sliders"></div>
+        <div class="presets">
+          <span class="presets-label">Try a real sample:</span>
+          <button class="preset-btn" data-preset="setosa">Setosa</button>
+          <button class="preset-btn" data-preset="versicolor">Versicolor</button>
+          <button class="preset-btn" data-preset="virginica">Virginica</button>
+        </div>
+      </div>
+
+      <div class="result">
+        <h2>Prediction</h2>
+        <div id="prediction-card" class="prediction-card">
+          <div class="predicted-name" id="predicted-name">—</div>
+          <div class="predicted-sub">most likely species</div>
+        </div>
+        <div id="prob-bars" class="prob-bars"></div>
+      </div>
+    </section>
+
+    <section class="panel explain">
+      <h2>How It Works</h2>
+      <div class="explain-grid">
+        <div>
+          <h3>1. Encode</h3>
+          <p>Each of the 4 measurements is scaled to an angle between 0 and π,
+          then applied an <code>Ry</code> rotation (one qubit per feature as mentioned).
+          This transforms the classical Iris data into quantum states that can be manipulated in the VQC.</p>
+        </div>
+        <div>
+          <h3>2. Entangle</h3>
+          <p>A trained ansatz layer rotates the qubits, then applies a
+          CNOT "staircase" that lets the qubits interact. This is repeated once for a depth-2 VQC,
+          which surfaced during ablation tests as the optimal circuit depth that maximizes accuracy vs. parameter noise.</p>
+        </div>
+        <div>
+          <h3>3. Measure</h3>
+          <p>Now that all qubit information is entangled, qubit 0 is measured. An OVR (one-vs-rest) approach
+            is used, leading to three separate circuits — one per species. Each circuit is evaluated, and the one most likely to read
+          out <code>|1⟩</code> wins.</p>
+        </div>
+      </div>
+      <img src="assets/circuit_diagram_2_layer.png" alt="VQC circuit diagram" class="circuit-img">
+      <p class="accuracy-note" id="accuracy-note"></p>
+    </section>
+
+    <footer class="footer">
+      <p>
+        Source & training notebooks:
+        <a href="https://github.com/yiwen6826/variational-quantum-classifier" target="_blank" rel="noopener">
+          github.com/yiwen6826/variational-quantum-classifier
+        </a>
+      </p>
+    </footer>
+  </main>
+
+  <script src="assets/vqc.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
